@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2 class="text-center mb-0">Track Orders</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'track_orders' %}" class="mb-4">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="track_id">Enter Track ID:</label>
+                    <div class="input-group">
+                        <input type="text" id="track_id" name="track_id" class="form-control" required>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Track Order</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            {% if order %}
+                <div class="order-details">
+                    <h3 class="mb-3">Order Details</h3>
+                    <p><strong>Order ID:</strong> {{ order.id }}</p>
+                    <p><strong>Material:</strong> {{ order.material }}</p>
+                    <!-- Display other order details as needed -->
+
+                    <h4 class="mt-4 mb-3">Tracking Statuses:</h4>
+                    <ul class="list-group">
+                        {% if statuses %}
+                            {% for status in statuses %}
+                                <li class="list-group-item">{{ status.status }} - {{ status.timestamp }}</li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="list-group-item">Order Placed</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="navigation-links mt-4">
+                <a href="{% url 'place_order' %}" class="btn">Place New Order</a>
+                <a href="{% url 'customer_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

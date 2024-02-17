@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Staff Message to {{ customer.username }}</h1>
+    <p>Username: {{ customer.username }}</p>
+    <p>Email: {{ customer.email }}</p>
+    <!-- Add other customer details as needed -->
+
+    <h2>Send Reply</h2>
+    <form method="post" action="#">
+        {% csrf_token %}
+        <textarea name="reply_content" rows="4" cols="50" placeholder="Enter your reply"></textarea>
+        <button type="submit">Send Reply</button>
+    </form>
+
+    <!-- Display messages if any -->
+    <h2>Messages</h2>
+    <ul class="messages">
+        {% for message in messages %}
+            {% if message.sender == staff_user %}
+                <li class="sent">{{ message.content }}</li>
+            {% else %}
+                <li class="received">{{ message.content }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}

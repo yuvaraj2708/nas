@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Your Order</title>
+    <!-- Include Bootstrap CSS -->
+    
+    <style>
+        .card {
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>Place Your Order</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="{% url 'place_order' %}" id="orderForm">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="{{ form.material.id_for_label }}"><i class="fas fa-cube"></i> Material:</label>
+                                {{ form.material }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.weight.id_for_label }}"><i class="fas fa-weight"></i> Weight (in kg):</label>
+                                {{ form.weight }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.pickup_address.id_for_label }}"><i class="fas fa-map-marker-alt"></i> Pickup Address:</label>
+                                {{ form.pickup_address }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.delivery_address.id_for_label }}"><i class="fas fa-map-marker-alt"></i> Delivery Address:</label>
+                                {{ form.delivery_address }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.contact.id_for_label }}"><i class="fas fa-phone"></i> Contact:</label>
+                                {{ form.contact }}
+                            </div>
+
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary" id="placeOrderBtn">Place Order</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Function to show confirmation modal
+            function showConfirmation() {
+                // Create a custom modal
+                var modal = $('<div class="modal" tabindex="-1" role="dialog">' +
+                    '<div class="modal-dialog" role="document">' +
+                    '<div class="modal-content">' +
+                    '<div class="modal-header">' +
+                    '<h5 class="modal-title">Confirmation</h5>' +
+                    '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div>' +
+                    '<div class="modal-body">' +
+                    '<p>Are you sure you want to place the order?</p>' +
+                    '</div>' +
+                    '<div class="modal-footer">' +
+                    '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>' +
+                    '<button type="submit" class="btn btn-primary" id="confirmOrderBtn">Place Order</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>');
+
+                // Append the modal to the body and show it
+                modal.appendTo('body').modal('show');
+
+                // Handle modal close event
+                modal.on('hidden.bs.modal', function() {
+                    // Remove the modal from the DOM after it's closed
+                    modal.remove();
+                });
+
+                // Handle confirmation button click
+                $("#confirmOrderBtn").click(function() {
+                    // Manually trigger the form submission
+                    $("#orderForm").submit();
+                });
+
+                // Return false to prevent the default form submission
+                return false;
+            }
+
+            // Place Order button click event
+            $("#placeOrderBtn").click(function() {
+                // Check if the user confirms the action using the custom modal
+                showConfirmation();
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

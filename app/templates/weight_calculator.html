@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2 class="text-center mb-0">Weight Calculator</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="weight">Enter Weight (in kg):</label>
+                    <div class="input-group">
+                        <input type="text" id="weight" name="weight" class="form-control">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Calculate Price</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            {% if weight and price %}
+                <p class="mt-3">Price for {{ weight }} kg: Rs. {{ price }}</p>
+            {% elif weight %}
+                <p class="mt-3">No price found for {{ weight }} kg.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<br>
+
+{% endblock %}

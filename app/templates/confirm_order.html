@@ -1,0 +1,30 @@
+<!-- confirm_order.html -->
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>Confirm Your Order</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="order-details">
+                            <p><strong>Order Details:</strong></p>
+                            <p><strong>Material:</strong> {{ order.material }}</p>
+                            <p><strong>Weight:</strong> {{ order.weight }}</p>
+                            <p><strong>Pickup Address:</strong> {{ order.pickup_address }}</p>
+                            <p><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
+                        </div>
+                        <form method="post" action="{% url 'confirm_order' order_id=order.id %}">
+                            {% csrf_token %}
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-success btn-lg">Confirm Order</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

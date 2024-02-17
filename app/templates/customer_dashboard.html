@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="card mt-5">
+        {% comment %} <a href="{% url 'view_messages' %}">
+            <i class="icofont-ui-message"></i>
+          </a> {% endcomment %}
+        <div class="card-header bg-primary text-white">
+            <h3 class="text-center">Hi {{user.username}}</h3>
+          <h2 class="text-center">Your Dashboard</h2>
+        </div>
+        <div class="card-body">
+          <h3>Your Orders:</h3>
+          <div class="list-group">
+            {% for order in orders %}
+              <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h5 class="mb-1">{{ order.material }} | Tracking id: {{ order.track_id }}</h5>
+                    <p class="mb-1">Status: {{ order.status.status|default:"Order Placed" }}</p>
+                  </div>
+                  <div>
+          
+                  </div>
+                </div>
+              </div>
+            {% empty %}
+              <p>No orders found.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
